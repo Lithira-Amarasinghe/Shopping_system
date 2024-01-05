@@ -1,0 +1,7 @@
+
+X
+java:S2259"BA "NullPointerException" could be thrown; "user" is nullable here.(¤ªÙé
+f
+java:S1206"PThis class overrides "equals()" and should therefore also override "hashCode()".(®°¨½
+5
+java:S2097"Add a type test to this method.(®°¨½

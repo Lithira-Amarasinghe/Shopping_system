@@ -1,0 +1,10 @@
+
+s	java:S1358"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆÿÿÿÿÿ
+s	java:S135Q"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆÿÿÿÿÿ
+P
+java:S1143 "5Remove this return statement from this finally block.(º˜¢åûÿÿÿÿ
+C	java:S1080")Either remove or fill this block of code.(¦Œçõÿÿÿÿÿ
+1
+java:S3626K"Remove this redundant jump.(İí¦
+R
+java:S1117‘";Rename "product" which hides the field declared at line 18.(Á”ÂÑ

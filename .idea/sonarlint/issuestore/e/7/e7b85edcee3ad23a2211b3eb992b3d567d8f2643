@@ -1,0 +1,26 @@
+
+K
+java:S3740û"/Provide the parametrized type for this generic.(úñªõˇˇˇˇˇ
+C
+java:S1604k"(Make this anonymous inner class a lambda(§©“‚¸ˇˇˇˇ
+1
+java:S1116"Remove this empty statement.(ûÓÆI
+E
+java:S1197Q"*Move the array designators [] to the type.(°˛œ÷¯ˇˇˇˇ
+Z
+java:S2147`"DCombine this catch with the one at line 94, which has the same body.(®¶äΩ
+Z
+java:S2147b"DCombine this catch with the one at line 94, which has the same body.(„Äê†
+_
+java:S2147d"DCombine this catch with the one at line 94, which has the same body.(ª¥˝ã˚ˇˇˇˇ
+U
+java:S1117¢">Rename "totalPrice" which hides the field declared at line 42.(äèﬂﬂ
+W	java:S125®"<This block of commented-out lines of code should be removed.(±Ωˇ’˝ˇˇˇˇ
+W	java:S125∞"<This block of commented-out lines of code should be removed.(˘ÿ©»˙ˇˇˇˇ
+R	java:S125¿"<This block of commented-out lines of code should be removed.(°Í÷‰
+I
+java:S1068*".Remove this unused "totalPrice" private field.(µÒ…≠¸ˇˇˇˇ
+O
+java:S1068+"9Remove this unused "firstPurchaseDiscount" private field.(óÄËˇ
+L
+java:S1068,"6Remove this unused "threeItemsDiscount" private field.(ºòﬁƒ

@@ -4,22 +4,22 @@ import model.Clothing;
 import model.Electronics;
 import model.Product;
 import model.User;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import repository.ShopData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest(ShopUtil.class)
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoExtension.class)
 public class ShopUtilTest {
     @Test
     public void getProduct() {
@@ -49,6 +49,7 @@ public class ShopUtilTest {
         Product product = ShopUtil.getProduct("003", products);
 
         assertEquals("003", product.getProductId());
+        assertNotEquals("000", product.getProductId());
     }
 
     @Test
@@ -61,12 +62,12 @@ public class ShopUtilTest {
         List<User> userList = Arrays.asList(user1, user2, user3);
 
         try (MockedStatic<ShopData> shopMockedStatic = Mockito.mockStatic(ShopData.class)) {
-            shopMockedStatic.when(ShopData::getCurrentUser)
+            shopMockedStatic.when(() -> ShopData.getCurrentUser())
                     .thenReturn(user2);
 
             User user = ShopUtil.getCurrentUser(userList);
 
-            assertEquals("User name should be peter",user.getUsername(), "peter");
+            assertEquals("User name should be peter", user.getUsername(), "peter");
         }
 
 

@@ -119,7 +119,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         product.addToStock(quantity);
         ShopData.saveToAFile(products,FileNames.PRODUCTS_FILE);
 
-        return null;
+        return product;
     }
 
     @Override

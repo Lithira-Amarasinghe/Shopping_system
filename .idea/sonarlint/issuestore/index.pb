@@ -32,16 +32,6 @@ L
 L
 src/main/java/ui/CartUI.form,f\4\f4e67f6e2becb821285e93b1734ab9b5991aa8f2
 P
- src/main/java/util/ShopUtil.java,6\3\6335231ad3e0cc06e64ed17da6ebe80335ed9b44
-P
  src/main/java/util/TestData.java,1\1\11e34829b2cb2fa74107d91fbc5c0822a06b54b4
 Q
 !src/main/java/util/FileNames.java,6\6\66b6c2bd5d4a4955fe276306ec593979da6c3ada
-T
-$src/test/java/util/ShopUtilTest.java,0\3\03ddf38307d06b46d24bf2785790e8a02b7428b7
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-j
-:src/main/java/service/impl/WestminsterShoppingManager.java,7\1\71c3eeacf1729dc5da17c07927186199960d2b59
-n
->src/test/java/service/impl/WestminsterShoppingManagerTest.java,9\2\92acd7f90ac24289e650d545641164165af89f14

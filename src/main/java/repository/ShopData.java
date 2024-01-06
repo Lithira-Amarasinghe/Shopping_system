@@ -82,9 +82,9 @@ public class ShopData {
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
             return false;
         }
     }

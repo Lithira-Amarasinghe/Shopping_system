@@ -4,6 +4,7 @@ import model.Clothing;
 import model.Electronics;
 import model.Product;
 import model.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
@@ -21,8 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class ShopUtilTest {
-    @Test
-    public void getProduct() {
+    List<Product> products = new ArrayList<>();
+    @BeforeEach
+    void setProducts(){
         var product1 = new Electronics("001",
                                        "Keyboard",
                                        12,
@@ -41,10 +43,13 @@ public class ShopUtilTest {
                                        2000,
                                        "DELL",
                                        "60");
-        List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
         products.add(product3);
+    }
+
+    @Test
+    public void getProduct() {
 
         Product product = ShopUtil.getProduct("003", products);
 
@@ -64,12 +69,9 @@ public class ShopUtilTest {
         try (MockedStatic<ShopData> shopMockedStatic = Mockito.mockStatic(ShopData.class)) {
             shopMockedStatic.when(() -> ShopData.getCurrentUser())
                     .thenReturn(user2);
-
             User user = ShopUtil.getCurrentUser(userList);
 
-            assertEquals("User name should be peter", user.getUsername(), "peter");
+            assertEquals( user.getUsername(), "peter","User name should be peter");
         }
-
-
     }
 }

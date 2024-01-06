@@ -1,0 +1,17 @@
+
+K
+java:S1143I"5Remove this return statement from this finally block.(’’‡µ
+e
+java:S2095<"OUse try-with-resources or close this "ObjectInputStream" in a "finally" clause.(¨ﬁ¿†
+s
+java:S1450"XRemove the "cartItems" field and declare it as a local variable in the relevant methods.(¨Ò¸‚˛ˇˇˇˇ
+m
+java:S1450"WRemove the "products" field and declare it as a local variable in the relevant methods.(ÌıÛ¯
+U
+java:S1118":Add a private constructor to hide the implicit public one.(∂À—Ä˙ˇˇˇˇ
+?
+java:S1905I")Remove this unnecessary cast to "Object".(’’‡µ
+E
+java:S2093:"*Change this "try" to a try-with-resources.(°ª¢¸˘ˇˇˇˇ
+Z
+java:S2147V"DCombine this catch with the one at line 83, which has the same body.(Ô≠£ƒ

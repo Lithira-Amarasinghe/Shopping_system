@@ -12,8 +12,6 @@ public class Clothing extends Product {
     private float size;
     private String color;
 
-
-
     public Clothing(
             String productId,
             String productName,

@@ -25,6 +25,16 @@ public class ShopData {
         return currentUser;
     }
 
+    public static<T> boolean testCall(T num)  {
+        System.out.println("TestCall method runniing");
+        if((int)num==10) try {
+            throw new Exception();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     public static void setCurrentUser(User currentUser){
         ShopData.currentUser = currentUser;
         try {
@@ -75,6 +85,7 @@ public class ShopData {
     }
 
     public static <T> boolean saveToAFile(T ref, FileNames fileNames) {
+        System.out.println("Produce saving...");
         try (ObjectOutputStream outputStream =
                      new ObjectOutputStream(
                              new FileOutputStream(fileNames.getValue()))) {

@@ -75,7 +75,7 @@ public class WestminsterShoppingManagerTest {
         try(MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)){
             mockedShopData.when(()-> ShopData.saveToAFile(any(List.class), any(FileNames.class)))
                     .thenReturn(true);
-
+            System.out.println();
             shoppingManager.addANewProduct(product);
             mockedShopData.verify(() -> ShopData.saveToAFile(any(List.class), any(FileNames.class)), times(1));
         }
@@ -95,12 +95,12 @@ public class WestminsterShoppingManagerTest {
 
     @Test
     void printProductList() {
-        try (MockedStatic<ShopData> shopMockedStatic = mockStatic(ShopData.class)) {
-            shopMockedStatic.when(() -> ShopData.getProducts())
+        try (MockedStatic<ShopData> mockedShopData = mockStatic(ShopData.class)) {
+            mockedShopData.when(() -> ShopData.getProducts())
                     .thenReturn(products);
             List<Product> resultProducts = shoppingManager.printProductList();
 
-            shopMockedStatic.verify(()->ShopData.getProducts(),times(1));
+            mockedShopData.verify(()->ShopData.getProducts(),times(1));
 
             assertEquals(resultProducts.size(), products.size(),"Product list should contain 3 items");
 
@@ -120,22 +120,39 @@ public class WestminsterShoppingManagerTest {
     }
 
     @Test
+    void testShop(){
+        try (MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)) {
+
+            mockedShopData.when(()-> ShopData.testCall(anyString())).thenReturn(false);
+
+            System.out.println(ShopData.testCall("20"));
+            System.out.println(shoppingManager.testShop("30"));
+
+            mockedShopData.verify(
+                    ()->ShopData.testCall(anyString())
+                    ,times(2));
+        }
+    }
+
+    @Test
     void saveProductsTest() {
         var shopProducts = ShopData.getProducts();
         Map<Integer,String> map = new HashMap<>();
         map.put(1,"001");
         map.put(2,"002");
         map.put(3,"003");
-        try (MockedStatic<ShopData> shopDataMockedStatic = Mockito.mockStatic(ShopData.class)) {
-            shopDataMockedStatic.when(() -> ShopData.saveToAFile(anyList() , any(FileNames.class)))
+        try (MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)) {
+            List<Product> mockProducts = new ArrayList<>();
+            mockedShopData.when(() -> ShopData.saveToAFile(anyList() , any(FileNames.class)))
                     .thenReturn(true);
-            shopDataMockedStatic.verifyNoInteractions();
+            mockedShopData.verifyNoInteractions();
 
             shoppingManager.saveProducts();
 
-            shopDataMockedStatic.verify(
-                    ()->ShopData.saveToAFile(any(List.class), any(FileNames.class))
+            mockedShopData.verify(
+                    ()->ShopData.saveToAFile(anyList(), any(FileNames.class))
                     ,times(1));
+
         }
     }
 

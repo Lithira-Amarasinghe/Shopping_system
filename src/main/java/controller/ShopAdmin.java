@@ -4,9 +4,18 @@ import service.impl.WestminsterShoppingManager;
 import ui.HomeUI;
 
 public class ShopAdmin {
+    static ShoppingManagerController shoppingManagerController;
+
+    ShopAdmin(){
+        shoppingManagerController = new ShoppingManagerController(new WestminsterShoppingManager());
+    }
+
+    ShopAdmin(ShoppingManagerController shoppingManagerController){
+        ShopAdmin.shoppingManagerController = shoppingManagerController;
+    }
+
     public static void main(String[] args) {
         HomeUI homeUI = new HomeUI();
-        ShoppingManagerController shoppingManagerController = new ShoppingManagerController(new WestminsterShoppingManager());
         shoppingManagerController.loadDataController();
         shoppingManagerController.startManagerWork();
     }

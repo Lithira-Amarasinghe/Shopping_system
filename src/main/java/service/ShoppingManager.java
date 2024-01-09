@@ -22,4 +22,5 @@ public interface ShoppingManager {
     void loadData();
     Product addToStock(List<Product> products, Product product, int quantity);
     void openShop();
+    <T> boolean testShop(T num) ;
 }

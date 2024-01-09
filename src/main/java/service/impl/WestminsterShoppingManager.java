@@ -102,7 +102,14 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public void saveProducts() {
+        System.out.println(System.identityHashCode(products));
+        System.out.println(products);
         ShopData.saveToAFile(products, FileNames.PRODUCTS_FILE);
+    }
+
+    @Override
+    public <T> boolean testShop(T num) {
+        return ShopData.testCall(num);
     }
 
     @Override

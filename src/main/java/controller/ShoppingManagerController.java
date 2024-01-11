@@ -1,5 +1,6 @@
 package controller;
 
+import lombok.NoArgsConstructor;
 import model.Clothing;
 import model.Electronics;
 import model.Product;
@@ -11,11 +12,14 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+@NoArgsConstructor
 public class ShoppingManagerController {
-    ShoppingManager shoppingManager;
-    private static int option;
     static Scanner scanner = new Scanner(System.in);
+    private static int option;
+    ShoppingManager shoppingManager;
     Product product;
+
+//    public ShoppingManagerController(){}
 
     public ShoppingManagerController(ShoppingManager shoppingManager) {
         this.shoppingManager = shoppingManager;
@@ -25,34 +29,34 @@ public class ShoppingManagerController {
         try {
             System.out.print("Enter the option no. : ");
             option = scanner.nextInt();
-        }catch (InputMismatchException ex){
+        } catch (InputMismatchException ex) {
             System.out.println("!!! Invalid input");
             ex.printStackTrace();
-        }finally {
+        } finally {
             return option;
         }
     }
 
-    public void startManagerWork(){
-            getMainOption();
-            loadDataController();
-
-    }
-
-    public static String getProductId(){
+    public static String getProductId() {
         String productId = null;
         scanner.nextLine();
         try {
             System.out.print("Enter the product id to delete : ");
             productId = scanner.nextLine();
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
 
         }
         return productId;
 
     }
 
-    public void getMainOption(){
+    public void startManagerWork() {
+        getMainOption();
+        loadDataController();
+
+    }
+
+    public void getMainOption() {
         while (true) {
             shoppingManager.displayMenu();
             ShoppingManagerController.getOption();
@@ -68,15 +72,15 @@ public class ShoppingManagerController {
                 shoppingManager.printProductList();
             } else if (option == 4) {
                 shoppingManager.saveProducts();
-            }else if (option == 5) {
+            } else if (option == 5) {
                 shoppingManager.openShop();
-            }else if (option == 6) {
+            } else if (option == 6) {
                 getStockChangeData();
             } else continue;
         }
     }
 
-    public Product getNewProductDetails(){
+    public Product getNewProductDetails() {
         try {
             while (true) {
                 System.out.println("\t\t---- Add product ----\n");
@@ -126,31 +130,31 @@ public class ShoppingManagerController {
                 System.out.println("Item details entered successfully");
                 break;
             }
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             e.printStackTrace();
             System.out.println("!!! Invalid input");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("!!! Error");
         }
         return product;
     }
 
-    public void getStockChangeData(){
+    public void getStockChangeData() {
         System.out.print("Product id    : ");
         scanner.nextLine();
         String productId = scanner.nextLine();
 
         List<Product> products = ShopData.getProducts();
         Product product = ShopUtil.getProduct(productId, products);
-        if(product==null) {
+        if (product == null) {
             System.out.println("No such product found!!!");
             return;
         }
 
         System.out.print("Quantity add to stock : ");
         int quantity = scanner.nextInt();
-        shoppingManager.addToStock(products,product, quantity);
+        shoppingManager.addToStock(products, product, quantity);
     }
 
     public void loadDataController() {

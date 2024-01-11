@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author Lithira
  */
 
-public abstract class Product implements Serializable {
+public abstract class Product implements Serializable, Comparable {
     protected String productId;
     protected String productName;
     protected int noOfItemsAvailable;
@@ -20,6 +20,11 @@ public abstract class Product implements Serializable {
 
     Product(){
 
+    }
+
+    @Override
+    public int compareTo(Object product) {
+        return productName.compareTo(((Product)product).getProductName());
     }
 
     Product(

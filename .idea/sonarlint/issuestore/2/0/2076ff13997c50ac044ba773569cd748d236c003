@@ -1,41 +1,65 @@
 
 D
-java:S3740""/Provide the parametrized type for this generic.(¯Ùn
+java:S3740$"/Provide the parametrized type for this generic.(¯Ùn
 `
-java:S1192â"IDefine a constant instead of duplicating this literal "Clothing" 5 times.(Ì»¸™
+java:S1192˜"IDefine a constant instead of duplicating this literal "Clothing" 5 times.(µ¥Ñä
 l
-java:S1192Ü"PDefine a constant instead of duplicating this literal " weeks warranty" 3 times.(³ûœõøÿÿÿÿ
-h
-java:S1192Ú"LDefine a constant instead of duplicating this literal "Electronics" 5 times.(´½¶§ùÿÿÿÿ
+java:S1192§"PDefine a constant instead of duplicating this literal " weeks warranty" 3 times.(³ûœõøÿÿÿÿ
+c
+java:S1192˜"LDefine a constant instead of duplicating this literal "Electronics" 5 times.(µ¥Ñä
 C
-java:S1604h"(Make this anonymous inner class a lambda(¤©Òâüÿÿÿÿ
+java:S1604k"(Make this anonymous inner class a lambda(¤©Òâüÿÿÿÿ
 >
-java:S1604s"(Make this anonymous inner class a lambda(»’²ñ
+java:S1604v"(Make this anonymous inner class a lambda(»’²ñ
+D
+java:S1604ô"(Make this anonymous inner class a lambda(Î‡í’ûÿÿÿÿ
+Q
+java:S1143Ó"5Remove this return statement from this finally block.(Í ‚ƒùÿÿÿÿ
+S
+java:S4973§"<Strings and Boxed types should be compared using "equals()".(…è¶±
+l
+java:S3655¦"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(™Žôœþÿÿÿÿ
+l
+java:S3655†"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(™Žôœþÿÿÿÿ
+g
+java:S3655°"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ýŸŸ¶
+=
+java:S1948$"(Make "productList" private or transient.(¯Ùn
+A
+java:S1948%"&Make "cartItems" private or transient.(ª Ø…ÿÿÿÿÿ
 <
-java:S19483"&Make "data" transient or serializable.(­îë¢
-V	java:S1259"<This block of commented-out lines of code should be removed.(’ò®¶ÿÿÿÿÿ
+java:S19486"&Make "data" transient or serializable.(­îë¢
+V	java:S125<"<This block of commented-out lines of code should be removed.(’ò®¶ÿÿÿÿÿ
 E
-java:S1197O"*Move the array designators [] to the type.(¡þÏÖøÿÿÿÿ
+java:S1197R"*Move the array designators [] to the type.(¡þÏÖøÿÿÿÿ
 Z
-java:S2147^"DCombine this catch with the one at line 92, which has the same body.(¨¦Š½
+java:S2147a"DCombine this catch with the one at line 95, which has the same body.(¨¦Š½
 Z
-java:S2147`"DCombine this catch with the one at line 92, which has the same body.(ã€ 
+java:S2147c"DCombine this catch with the one at line 95, which has the same body.(ã€ 
 _
-java:S2147b"DCombine this catch with the one at line 92, which has the same body.(»´ý‹ûÿÿÿÿ
-T
-java:S1117’"=Rename "cartItems" which hides the field declared at line 35.(ýŸŸ¶
-D	java:S108›")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ
+java:S2147e"DCombine this catch with the one at line 95, which has the same body.(»´ý‹ûÿÿÿÿ
 i
-java:S1871®"MThis branch's code block is the same as the block for the branch on line 172.(ŒÑèøÿÿÿÿ
-R	java:S125Ì"<This block of commented-out lines of code should be removed.(¡êÖä
-T
-java:S1117Ò"8Rename "data" which hides the field declared at line 51.(Ì™ý†ùÿÿÿÿ
-R	java:S125í"<This block of commented-out lines of code should be removed.(öÜŒß
-W	java:S125’"<This block of commented-out lines of code should be removed.(êÑÝ¯ÿÿÿÿÿ
+java:S1871‰"MThis branch's code block is the same as the block for the branch on line 135.(ŒÑèøÿÿÿÿ
 n
-java:S3776¿"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(°¯°ãüÿÿÿÿ
-=	java:S131È""Add a default case to this switch.(”“ñžûÿÿÿÿ
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(°¯°ãüÿÿÿÿ
+=	java:S131›""Add a default case to this switch.(”“ñžûÿÿÿÿ
 f
-java:S1612å"JReplace this lambda with method reference 'Electronics.class::isInstance'.(ÆðÞ·ýÿÿÿÿ
+java:S1612¸"JReplace this lambda with method reference 'Electronics.class::isInstance'.(ÆðÞ·ýÿÿÿÿ
 ^
-java:S1612÷"GReplace this lambda with method reference 'Clothing.class::isInstance'.(ø€—Ñ
+java:S1612Ê"GReplace this lambda with method reference 'Clothing.class::isInstance'.(ø€—Ñ
+G
+java:S1905Î"+Remove this unnecessary cast to "Clothing".(¢Ã‹Œùÿÿÿÿ
+R	java:S125¥"<This block of commented-out lines of code should be removed.(¡êÖä
+R	java:S125°"<This block of commented-out lines of code should be removed.(öÜŒß
+W	java:S125Ü"<This block of commented-out lines of code should be removed.(êÑÝ¯ÿÿÿÿÿ
+g
+java:S6201"PReplace this instanceof check and cast with 'instanceof Electronics electronics'(ùï®Ð
+g
+java:S6201"PReplace this instanceof check and cast with 'instanceof Electronics electronics'(ùï®Ð
+f
+java:S6201•"JReplace this instanceof check and cast with 'instanceof Clothing clothing'(©•Ìþüÿÿÿÿ
+f
+java:S6201•"JReplace this instanceof check and cast with 'instanceof Clothing clothing'(©•Ìþüÿÿÿÿ
+T
+java:S1117°"=Rename "cartItems" which hides the field declared at line 37.(ýŸŸ¶
+D	java:S108¹")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ

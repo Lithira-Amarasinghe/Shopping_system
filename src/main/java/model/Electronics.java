@@ -67,6 +67,4 @@ public class Electronics extends Product{
         return warrantyPeriod;
     }
 
-
-
 }

@@ -6,6 +6,10 @@ import ui.HomeUI;
 public class ShopAdmin {
     static ShoppingManagerController shoppingManagerController;
 
+    static{
+        shoppingManagerController = new ShoppingManagerController(new WestminsterShoppingManager());
+    }
+
     ShopAdmin(){
         shoppingManagerController = new ShoppingManagerController(new WestminsterShoppingManager());
     }

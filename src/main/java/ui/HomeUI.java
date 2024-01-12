@@ -7,10 +7,12 @@ package ui;
 
 import model.*;
 import repository.ShopData;
+import util.ClickableCellEditor;
 import util.FileNames;
 import util.ShopUtil;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -21,6 +23,8 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +42,9 @@ public class HomeUI extends JFrame {
     List<Product> sortedProductList = new ArrayList();
     List<CartItem> cartItems = new ArrayList<>();
 
+    JPanel mainPanel = new JPanel();
+
+    JPanel topPanel = new JPanel();
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
     JPanel panel3 = new JPanel();
@@ -66,18 +73,23 @@ public class HomeUI extends JFrame {
         initComponents();
         setVisible(true);
         setTitle("Westminster Shopping Center");
-        setLayout(new GridLayout(5, 1));
+//        setLayout(new FlowLayout());
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
         setSize(1000, 500);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 
         productList = ShopData.getProducts();
         cartItems = ShopData.getCartItems();
         data = new Object[productList.size()][];
+
+        createTopSection();
         createFirstSection();
         createSortSection();
         createProductListSection();
         createProductDetailsSection();
         createAddToCartSection();
+
+        getContentPane().add(mainPanel);
     }
 
     /**
@@ -151,9 +163,41 @@ public class HomeUI extends JFrame {
         return quantity;
     }
 
+    private void createTopSection(){
+        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(e -> {
+            ShopData.logout();
+        });
+
+        JButton btnShoppingCart = new JButton("Shopping Cart");
+        btnShoppingCart.addActionListener(e -> {
+            User currentUser = ShopData.getCurrentUser();
+            if (currentUser!=null) {
+                new CartUI(this);
+            }else{
+                new LoginUI();
+            }
+        });
+        topPanel.add(btnLogout);
+        topPanel.setPreferredSize(new Dimension(1000, 50));
+        topPanel.add(btnShoppingCart);
+        add(topPanel);
+    }
+
     private void createFirstSection() {
-        panel1.setLayout(new FlowLayout());
-        panel1.add(new JLabel("Select Product Category"));
+        panel1.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel label = new JLabel("Select Product Category");
+        label.setSize(20,10);
+        JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        // Set the preferred size of the panel (width in this case)
+        tempPanel.setPreferredSize(new Dimension(200, 30));
+        tempPanel.add(label);
+
+        panel1.add(tempPanel);
+//        panel1.setPreferredSize(new Dimension(100, 60));
 
         String[] labels = {"All", "Electronics", "Clothing"};
         JComboBox<String> comboBox = new JComboBox<>(labels);
@@ -177,17 +221,6 @@ public class HomeUI extends JFrame {
         });
         comboBox.setSize(50, 50);
         panel1.add(comboBox);
-
-        JButton btnShoppingCart = new JButton("Shopping Cart");
-        btnShoppingCart.addActionListener(e -> {
-            User currentUser = ShopData.getCurrentUser();
-            if (currentUser!=null) {
-                new CartUI(this);
-            }else{
-                new LoginUI();
-            }
-        });
-        panel1.add(btnShoppingCart);
         add(panel1);
     }
 
@@ -195,8 +228,6 @@ public class HomeUI extends JFrame {
         sortPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         sortCheckBox = new JCheckBox("Sort");
         sortPanel.add(sortCheckBox);
-        sortPanel.setSize(1000, 20);
-
         sortCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -237,9 +268,10 @@ public class HomeUI extends JFrame {
     }
 
     private void modifyTableData() {
+
         if (sortCheckBox.isSelected()) {
             sortedProductList = productList.stream()
-                    .sorted(Comparator.comparing(Product::getProductName))
+                    .sorted(Comparator.comparing(product -> product.getProductName()))
                     .collect(Collectors.toList());
             arrangeTableData(sortedProductList);
         } else {
@@ -250,7 +282,14 @@ public class HomeUI extends JFrame {
 
     private void createProductListSection() {
         panel2.setLayout(new GridLayout(1, 2));
-        model = new DefaultTableModel(data, columns);
+        model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false; // Prevent editing in all cells in the table but it is clickable
+            }
+        };
+        table.setModel(model);
+
         table = new JTable(model);
         modifyTableData();
 
@@ -280,7 +319,7 @@ public class HomeUI extends JFrame {
         });
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setSize(500, 300);
+//        scrollPane.setSize(1000, 150);
 
 // Insert an emoji into a specific cell (e.g., row 0, column 0)
 //        table.getModel().setValueAt("<html>😊</html>", 0, 5);

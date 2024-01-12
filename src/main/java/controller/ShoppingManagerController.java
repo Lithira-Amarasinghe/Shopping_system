@@ -6,6 +6,7 @@ import model.Electronics;
 import model.Product;
 import repository.ShopData;
 import service.ShoppingManager;
+import service.impl.WestminsterShoppingManager;
 import util.ShopUtil;
 
 import java.util.InputMismatchException;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class ShoppingManagerController {
     static Scanner scanner = new Scanner(System.in);
     private static int option;
-    ShoppingManager shoppingManager;
+    ShoppingManager shoppingManager=new WestminsterShoppingManager();
     Product product;
 
 //    public ShoppingManagerController(){}

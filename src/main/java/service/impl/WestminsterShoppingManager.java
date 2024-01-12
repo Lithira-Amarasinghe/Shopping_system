@@ -29,6 +29,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         products = ShopData.getProducts();
     }
 
+
     @Override
     public void displayMenu() {
         System.out.println(" [1]  - Add a new product");
@@ -40,24 +41,14 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.println(" [-1] - Exit ");
     }
 
+    /* Used to add a new product to the system*/
     @Override
     public void addANewProduct(Product product) {
         products.add(product);
         ShopData.saveToAFile(products,FileNames.PRODUCTS_FILE);
-//        try {
-//            ObjectOutputStream oos = new ObjectOutputStream(
-//                    new FileOutputStream(FileNames.PRODUCTS_FILE.getValue()));
-//            oos.writeObject(products);
-//        } catch (InputMismatchException | FileNotFoundException ex) {     // InputMismatchException thrown when a incompatible data inputs
-//            System.out.print("You have entered a wrong data type...\n Do you want to add item again (y/n) ? ");
-//            String input = scanner.next();
-//            if (input.equals("y") || input.toLowerCase().equals("yes")) {
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
+    /* Used to delete a product from the system. product id needs to delete */
     @Override
     public Product deleteAProduct(String productId) {
         products = ShopData.getProducts();
@@ -71,10 +62,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
         Product productToDelete = productOptional.get();
         products.remove(productToDelete);
         System.out.println("Product successfully deleted");
+        System.out.println(products.size() + " different products in the system");
         saveProducts();
         return productToDelete;
     }
 
+    /* This method used to print the product list */
     @Override
     public List<Product> printProductList() {
         // Assign a sorted product list
@@ -102,6 +95,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return products;
     }
 
+    /* This method used to save products to the products.ser file using java serialization*/
     @Override
     public void saveProducts() {
         System.out.println(System.identityHashCode(products));
@@ -114,11 +108,13 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return ShopData.testCall(num);
     }
 
+    /* This method loads the products from the stored file. It uses the deserialization */
     @Override
     public void loadData() {
         products = ShopData.getProducts();
     }
 
+    /* This method used to add products to the existing products */
     @Override
     public Product addToStock(List<Product> products, Product product, int quantity) {
         if(product==null) {
@@ -131,6 +127,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return product;
     }
 
+    /* This method used to open the home UI to view the products */
     @Override
     public void openShop() {
         new HomeUI();

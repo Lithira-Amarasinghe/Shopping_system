@@ -7,14 +7,14 @@ package ui;
 
 import model.*;
 import repository.ShopData;
-import util.ClickableCellEditor;
+import util.ComponentRef;
 import util.FileNames;
 import util.ShopUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -38,42 +37,43 @@ public class HomeUI extends JFrame {
             "Price($)",
             "Info"
     };
-    List<Product> productList = new ArrayList();
-    List<Product> sortedProductList = new ArrayList();
-    List<CartItem> cartItems = new ArrayList<>();
+    private List<Product> productList = new ArrayList();
+    private List<Product> sortedProductList = new ArrayList();
+    private List<CartItem> cartItems = new ArrayList<>();
 
-    JPanel mainPanel = new JPanel();
+    private JPanel mainPanel = new JPanel();
 
-    JPanel topPanel = new JPanel();
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel panel3 = new JPanel();
-    JPanel panel4 = new JPanel();
-    JPanel sortPanel = new JPanel();
-    JLabel lblProductId = new JLabel();
-    JLabel lblProductName = new JLabel();
-    JLabel lblProductCategory = new JLabel();
-    JLabel lblProductSize = new JLabel();
-    JLabel lblProductColour = new JLabel();
-    JLabel lblProductNoOfItemsAvailable = new JLabel();
-    JLabel sizeLabel = new JLabel("Size");
-    JLabel colorLabel = new JLabel("Red");
-    DefaultTableModel model;
-    JTable table = new JTable();
-    JCheckBox sortCheckBox;
+    private JPanel topPanel = new JPanel();
+    private JPanel panel1 = new JPanel();
+    private JPanel panel2 = new JPanel();
+    private JPanel panel3 = new JPanel();
+    private JPanel panel4 = new JPanel();
+    private JPanel sortPanel = new JPanel();
+    private JLabel lblProductId = new JLabel();
+    private JLabel lblProductName = new JLabel();
+    private JLabel lblProductCategory = new JLabel();
+    private JLabel lblProductSize = new JLabel();
+    private JLabel lblProductColour = new JLabel();
+    private JLabel lblProductNoOfItemsAvailable = new JLabel();
+    private JLabel sizeLabel = new JLabel("Size");
+    private JLabel colorLabel = new JLabel("Red");
+    private DefaultTableModel model;
+    private JTable table = new JTable();
+    private JCheckBox sortCheckBox;
 
-    Object[][] data;
+    private Component ref;
+
+    private Object[][] data;
 
     /**
      * Creates new form HomeUI
      */
     public HomeUI() {
-//        cartItems = (List<CartItem>) ShopData.loadData(FileNames.CART_PRODUCTS_FILE,Object.class);
+        ComponentRef.setHomeRef(this);
         cartItems = null;
         initComponents();
         setVisible(true);
         setTitle("Westminster Shopping Center");
-//        setLayout(new FlowLayout());
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
         setSize(1000, 500);
 
@@ -135,13 +135,16 @@ public class HomeUI extends JFrame {
         JButton btnAddToCart = new JButton("Add to Shopping Cart");
         panel4.add(btnAddToCart, BorderLayout.NORTH);
         add(panel4);
+
+        // Adding the action listener event to the add to cart button
         btnAddToCart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addProductsToCart(); // Add product to the cart. If the item already exists it only change the quantity
+                int i = addProductsToCart();// Add product to the cart. If the item already exists it only change the quantity
+                if (i==1 || i == 2) return;
                 boolean isDataSaved = ShopData.saveToAFile(cartItems, FileNames.CART_PRODUCTS_FILE);
                 if (isDataSaved) { // Check whether the product added to the cart
-                    System.out.println("Product added to cart successfully");
+                    JOptionPane.showMessageDialog(ref,"Product added to cart successfully");
                 }
             }
         });
@@ -168,18 +171,29 @@ public class HomeUI extends JFrame {
 
         JButton btnLogout = new JButton("Logout");
         btnLogout.addActionListener(e -> {
-            ShopData.logout();
+            // This check if there is a user logged in to the system logout
+            if(ShopData.getCurrentUser()==null){
+                JOptionPane.showMessageDialog(this,"No one logged into the system to logout");
+                return;
+            }
+            // This window ask whether user wants to log out?
+            int option = JOptionPane.showConfirmDialog(this,"Do you want logout? ");
+            if(option == 0) {
+                ShopData.logout();
+                JOptionPane.showMessageDialog(this,"Logout success");
+            }
         });
 
         JButton btnShoppingCart = new JButton("Shopping Cart");
         btnShoppingCart.addActionListener(e -> {
             User currentUser = ShopData.getCurrentUser();
             if (currentUser!=null) {
-                new CartUI(this);
+                new ShoppingCart();
             }else{
                 new LoginUI();
             }
         });
+
         topPanel.add(btnLogout);
         topPanel.setPreferredSize(new Dimension(1000, 50));
         topPanel.add(btnShoppingCart);
@@ -197,7 +211,6 @@ public class HomeUI extends JFrame {
         tempPanel.add(label);
 
         panel1.add(tempPanel);
-//        panel1.setPreferredSize(new Dimension(100, 60));
 
         String[] labels = {"All", "Electronics", "Clothing"};
         JComboBox<String> comboBox = new JComboBox<>(labels);
@@ -217,7 +230,6 @@ public class HomeUI extends JFrame {
                 }
             }
             modifyTableData();
-
         });
         comboBox.setSize(50, 50);
         panel1.add(comboBox);
@@ -243,7 +255,8 @@ public class HomeUI extends JFrame {
         add(sortPanel);
     }
 
-    private void arrangeTableData(List<Product> list) {
+    /* This method arrage the data that used to add to the products table*/
+    public void arrangeTableData(List<Product> list) {
         data = new Object[list.size()][];
         for (int i = 0; i < list.size(); i++) {
             Product product = list.get(i);
@@ -267,8 +280,7 @@ public class HomeUI extends JFrame {
         }
     }
 
-    private void modifyTableData() {
-
+    public void modifyTableData() {
         if (sortCheckBox.isSelected()) {
             sortedProductList = productList.stream()
                     .sorted(Comparator.comparing(product -> product.getProductName()))
@@ -319,10 +331,6 @@ public class HomeUI extends JFrame {
         });
 
         JScrollPane scrollPane = new JScrollPane(table);
-//        scrollPane.setSize(1000, 150);
-
-// Insert an emoji into a specific cell (e.g., row 0, column 0)
-//        table.getModel().setValueAt("<html>😊</html>", 0, 5);
 
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow selecting only one row at a time
@@ -357,7 +365,6 @@ public class HomeUI extends JFrame {
         panel3.add(lblProductColour);
         panel3.add(new JLabel("Items available"));
         panel3.add(lblProductNoOfItemsAvailable);
-
         add(panel3);
     }
 
@@ -385,22 +392,33 @@ public class HomeUI extends JFrame {
         }
     }
 
-    private void addProductsToCart() {
+    private int addProductsToCart() {
         cartItems = ShopData.getCartItems();
         String productId = lblProductId.getText();
 
         int quantity = getAddQuantity();
         if (quantity == -1) {
             JOptionPane.showMessageDialog(this, "Quantity is invalid !!!");
-            return;
+            return 1;
         }
         Product product = productList.stream()
-                .filter(x -> x.getProductId() == productId)
+                .filter(x -> x.getProductId().equals(productId))
                 .findFirst()
                 .get();
+
+        Optional<CartItem> first = cartItems.stream()
+                .filter(c -> c.getProductId().equals(productId))
+                .findFirst();
+        if(first.isPresent()){
+            CartItem cartItem = first.get();
+            if(product.getNoOfItemsAvailable() < (quantity + cartItem.getQuantity())) {
+                JOptionPane.showMessageDialog(this, "Maximum quantity available is " + product.getNoOfItemsAvailable());
+                return 2;
+            }
+        }
         if (product.getNoOfItemsAvailable() < quantity) {
             JOptionPane.showMessageDialog(this, "Maximum quantity available is " + product.getNoOfItemsAvailable());
-            return;
+            return 2;
         }
 
         try {
@@ -411,7 +429,7 @@ public class HomeUI extends JFrame {
             if (cartItems != null) {
                 //Check to see whether the product already exists in the cart
                 cartItems.addQuantity(quantity, product.getPrice());
-                return;
+                return 3;
             }
         } catch (Exception e) {
         }
@@ -422,8 +440,24 @@ public class HomeUI extends JFrame {
                 quantity,
                 quantity * product.getPrice()
         );
-
         cartItems.add(cartItem);
+        return 0;
+    }
+
+    public TableModel getTableModel(){
+        return model;
+    }
+
+    public String[] getColumns(){
+        return columns;
+    }
+
+    public Object[][] getData(){
+        return data;
+    }
+
+    public Component getHomeRef(){
+        return ref;
     }
 
     /**

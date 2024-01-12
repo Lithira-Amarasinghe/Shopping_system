@@ -1,10 +1,12 @@
 package model;
 
 import java.io.Serializable;
-
+// Implements the Serializable to use serialization to save users data
+/* Setter for username if not included because after signup user cannot change the username */
 public class User implements Serializable {
     private String username;
     private String password;
+    // Used to check if a user purchased an item from shop or not previously
     private boolean isPurchased;
 
     public String getPassword() {
@@ -24,8 +26,6 @@ public class User implements Serializable {
         this.isPurchased = isPurchased;
     }
 
-
-
     public String getUsername() {
         return username;
     }
@@ -38,6 +38,7 @@ public class User implements Serializable {
         isPurchased = true;
     }
 
+    /* Used to check equality of two users based on the username*/
     @Override
     public boolean equals(Object user){
         return this.username.equals(((User)user).username);

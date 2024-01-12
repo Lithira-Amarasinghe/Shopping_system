@@ -12,7 +12,6 @@ package model;
 public class Electronics extends Product{
 
     private String brand;
-
     private String warrantyPeriod;
 
     public Electronics() {

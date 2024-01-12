@@ -2,7 +2,6 @@ package ui;
 
 import model.User;
 import repository.ShopData;
-import util.FileNames;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,8 +48,10 @@ public class LoginUI extends JFrame{
 
     private void createControllersSection() {
         btnLogin.addActionListener(e -> {
+            // Get the text in the text fields
             String username = txtUsername.getText();
             String password = txtPassword.getText();
+            // Get the user details from the database
             List<User> users = ShopData.getUsers();
             if(users==null) return;
             Optional<User> first = users.stream()
@@ -65,12 +66,14 @@ public class LoginUI extends JFrame{
             User user = first.get();
 
             if(!user.getPassword().equals(password)){
+                //Show incorrect password message to user
                 JOptionPane.showMessageDialog(this,"Incorrect password");
             }else{
+                //Show login success message to user
                 JOptionPane.showMessageDialog(this,"Login successful");
                 ShopData.setCurrentUser(user);
                 dispose();
-                new CartUI();
+                new ShoppingCart();
             }
         });
 

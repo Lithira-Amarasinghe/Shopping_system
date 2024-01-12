@@ -20,8 +20,6 @@ public class ShoppingManagerController {
     ShoppingManager shoppingManager=new WestminsterShoppingManager();
     Product product;
 
-//    public ShoppingManagerController(){}
-
     public ShoppingManagerController(ShoppingManager shoppingManager) {
         this.shoppingManager = shoppingManager;
     }
@@ -82,15 +80,24 @@ public class ShoppingManagerController {
     }
 
     public Product getNewProductDetails() {
+        List<Product> products = ShopData.getProducts();
+        if(products.size()>=50){
+            System.out.println("System can maximum 50 products");
+            return null;
+        }
         try {
             while (true) {
                 System.out.println("\t\t---- Add product ----\n");
                 System.out.print("Product is Electronic(E/e) item or Clothing(C/c) ? ");
                 scanner.nextLine();
                 String itemType = scanner.nextLine().trim().toLowerCase();
-                System.out.println(itemType);
                 System.out.print("Product id    : ");
                 String productId = scanner.nextLine();
+                Product product = ShopUtil.getProduct(productId, products);
+                if(product!=null) {
+                    System.out.println(productId + " already exists. Use another id.");
+                    continue;
+                }
                 System.out.print("Product name  : ");
                 String productName = scanner.nextLine();
                 System.out.print("No of items   : ");
@@ -104,24 +111,24 @@ public class ShoppingManagerController {
                         String brand = scanner.nextLine();
                         System.out.print("Enter warranty period(weeks) : ");
                         String warrantyPeriod = scanner.next();
-                        product = new Electronics(productId,
-                                                  productName,
-                                                  noOfItems,
-                                                  price,
-                                                  brand,
-                                                  warrantyPeriod);
+                        this.product = new Electronics(productId,
+                                                       productName,
+                                                       noOfItems,
+                                                       price,
+                                                       brand,
+                                                       warrantyPeriod);
                     }
                     case "c" -> {
                         System.out.print("Color : ");
                         String color = scanner.nextLine();
                         System.out.print("Size : ");
                         float size = scanner.nextFloat();
-                        product = new Clothing(productId,
-                                               productName,
-                                               noOfItems,
-                                               price,
-                                               size,
-                                               color);
+                        this.product = new Clothing(productId,
+                                                    productName,
+                                                    noOfItems,
+                                                    price,
+                                                    size,
+                                                    color);
                     }
                     default -> {
                         System.out.println("!!! You have selected a wrong input. Please enter again");

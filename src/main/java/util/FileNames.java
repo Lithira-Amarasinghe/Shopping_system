@@ -1,5 +1,6 @@
 package util;
 
+/* This enum is created to store the file names that are used to save/retrieve data */
 public enum FileNames {
     PRODUCTS_FILE("product.ser"),
     TEST_PRODUCTS_FILE("test_product.ser"),
@@ -12,6 +13,7 @@ public enum FileNames {
         this.value = value;
     }
 
+    // This method used to get the actual file name
     public String getValue() {
         return value;
     }

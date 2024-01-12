@@ -26,7 +26,7 @@ public class ShopData {
     }
 
     public static<T> boolean testCall(T num)  {
-        System.out.println("TestCall method runniing");
+        System.out.println("TestCall method running");
         if((int)num==10) try {
             throw new Exception();
         } catch (Exception e) {
@@ -34,7 +34,7 @@ public class ShopData {
         }
         return true;
     }
-
+    // This method current user after login.
     public static void setCurrentUser(User currentUser){
         ShopData.currentUser = currentUser;
         try {
@@ -45,7 +45,6 @@ public class ShopData {
                 saveToAFile(users, FileNames.USERS_FILE);
             }
         }catch (Exception e){
-            System.out.println(e);
             System.out.println("Error in saving user!!!");
         }
     }

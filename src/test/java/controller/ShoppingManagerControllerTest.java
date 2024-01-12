@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import service.impl.WestminsterShoppingManager;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,16 +43,13 @@ class ShoppingManagerControllerTest {
     }
 
     @Test
-    void getProductId() {
+    void getProductId() throws IOException {
         try (ByteArrayInputStream input = new ByteArrayInputStream("10\n20".getBytes())) {
             System.setIn(input);
             Scanner scanner = new Scanner(System.in);
             String productId = shoppingManagerController.getProductId();
             assertEquals("001", productId, "Product Id should be 001");
-        }catch (Exception e){
-
         }
-
     }
 
     @Test

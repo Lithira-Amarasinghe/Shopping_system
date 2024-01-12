@@ -38,7 +38,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.println(" [3]  - Print products list");
         System.out.println(" [4]  - Save to a file");
         System.out.println(" [5]  - Open shop");
-        System.out.println(" [5]  - Add out-of stock items : ");
+        System.out.println(" [6]  - Add out-of stock items");
         System.out.println(" [-1] - Exit ");
     }
 

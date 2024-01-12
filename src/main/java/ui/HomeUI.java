@@ -19,8 +19,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Lithira
@@ -34,7 +35,9 @@ public class HomeUI extends JFrame {
             "Info"
     };
     List<Product> productList = new ArrayList();
+    List<Product> sortedProductList = new ArrayList();
     List<CartItem> cartItems = new ArrayList<>();
+
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
     JPanel panel3 = new JPanel();
@@ -50,6 +53,7 @@ public class HomeUI extends JFrame {
     JLabel colorLabel = new JLabel("Red");
     DefaultTableModel model;
     JTable table = new JTable();
+    JCheckBox sortCheckBox;
 
     Object[][] data;
 
@@ -111,6 +115,10 @@ public class HomeUI extends JFrame {
         });
     }
 
+    public static void repaintHome() {
+        repaintHome();
+    }
+
     private void createAddToCartSection() {
         JButton btnAddToCart = new JButton("Add to Shopping Cart");
         panel4.add(btnAddToCart, BorderLayout.NORTH);
@@ -120,7 +128,7 @@ public class HomeUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 addProductsToCart(); // Add product to the cart. If the item already exists it only change the quantity
                 boolean isDataSaved = ShopData.saveToAFile(cartItems, FileNames.CART_PRODUCTS_FILE);
-                if(isDataSaved){ // Check whether the product added to the cart
+                if (isDataSaved) { // Check whether the product added to the cart
                     System.out.println("Product added to cart successfully");
                 }
             }
@@ -137,93 +145,43 @@ public class HomeUI extends JFrame {
             } else if (quantity <= 0) {
                 return -1;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return -1;
         }
         return quantity;
     }
 
     private void createFirstSection() {
-        List<Electronics> electronicsList = new ArrayList<>();
-        List<Clothing> clothingList = new ArrayList<>();
         panel1.setLayout(new FlowLayout());
         panel1.add(new JLabel("Select Product Category"));
 
         String[] labels = {"All", "Electronics", "Clothing"};
         JComboBox<String> comboBox = new JComboBox<>(labels);
+
         comboBox.addActionListener(e -> {
+            productList = ShopData.getProducts();
             switch ((String) comboBox.getSelectedItem()) {
-                case "All"-> {
-                    electronicsList.clear();
-                    data = new Object[productList.size()][];
-                    for (int i = 0; i < productList.size(); i++) {
-                        Product product = productList.get(i);
-                        if (product instanceof Electronics electronics) {
-                            data[i] = new Object[]{
-                                    electronics.getProductId(),
-                                    electronics.getProductName(),
-                                    "Electronics",
-                                    electronics.getPrice(),
-                                    (electronics.getBrand() + ", " + electronics.getWarrantyPeriod() + " weeks warranty")
-                            };
-                        } else if (product instanceof Clothing clothing) {
-                            data[i] = new Object[]{
-                                    clothing.getProductId(),
-                                    clothing.getProductName(),
-                                    "Clothing",
-                                    clothing.getPrice(),
-                                    (clothing.getSize() + ", " + clothing.getColor()),
-                            };
-                        }
-                    }
-                    model = new DefaultTableModel(data, columns);
-                    table.setModel(model);
-                }case "Electronics"-> {
-                    electronicsList.clear();
-                    productList.stream()
+                case "Electronics" -> {
+                    productList = productList.stream()
                             .filter(product -> product instanceof Electronics)
-                            .forEach(product -> electronicsList.add((Electronics) product));
-                    data = new Object[electronicsList.size()][];
-                    for (int i = 0; i < electronicsList.size(); i++) {
-                        Electronics electronics = electronicsList.get(i);
-                        data[i] = new Object[]{
-                                electronics.getProductId(),
-                                electronics.getProductName(),
-                                "Electronics",
-                                electronics.getPrice(),
-                                (electronics.getBrand() + ", " + electronics.getWarrantyPeriod() + " weeks warranty")
-                        };
-                    }
-                    model = new DefaultTableModel(data, columns);
-                    table.setModel(model);
-                }case "Clothing" -> {
-                    clothingList.clear();
-                    productList.stream()
+                            .collect(Collectors.toList());
+                }
+                case "Clothing" -> {
+                    productList = productList.stream()
                             .filter(product -> product instanceof Clothing)
-                            .forEach(product -> clothingList.add((Clothing) product));
-                    data = new Object[clothingList.size()][];
-                    for (int i = 0; i < clothingList.size(); i++) {
-                        Clothing clothing = (Clothing) clothingList.get(i);
-                        data[i] = new Object[]{
-                                clothing.getProductId(),
-                                clothing.getProductName(),
-                                "Clothing",
-                                clothing.getPrice(),
-                                (clothing.getSize() + ", " + clothing.getColor())
-                        };
-                    }
-                    model = new DefaultTableModel(data, columns);
-                    table.setModel(model);
+                            .collect(Collectors.toList());
                 }
             }
+            modifyTableData();
+
         });
         comboBox.setSize(50, 50);
         panel1.add(comboBox);
 
         JButton btnShoppingCart = new JButton("Shopping Cart");
         btnShoppingCart.addActionListener(e -> {
-            String username = JOptionPane.showInputDialog(this,"Enter your username");
-            if(username == null){
+            String username = JOptionPane.showInputDialog(this, "Enter your username");
+            if (username == null) {
                 return;
             }
             User user = new User(username, false);
@@ -231,44 +189,34 @@ public class HomeUI extends JFrame {
             new CartUI(this);
         });
         panel1.add(btnShoppingCart);
-
         add(panel1);
     }
 
-    private void createSortSection(){
+    private void createSortSection() {
         sortPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JCheckBox sortButton = new JCheckBox("Sort");
-        sortPanel.add(sortButton);
+        sortCheckBox = new JCheckBox("Sort");
+        sortPanel.add(sortCheckBox);
         sortPanel.setSize(1000, 20);
 
-        sortButton.addItemListener(new ItemListener() {
+        sortCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    Collections.sort(productList);
-                    sortButton.setText("Sorted");
-                    arrangeTableData();
-                    model.setDataVector(data, columns);
+                    sortCheckBox.setText("Sorted");
+                    modifyTableData();
                 } else {
-                    productList = ShopData.getProducts();
-                    sortButton.setText("Sort");
-                    arrangeTableData();
-                    model.setDataVector(data, columns);
-
+                    sortCheckBox.setText("Sort");
+                    modifyTableData();
                 }
             }
-        });
-
-        sortButton.addActionListener(e -> {
-
-
         });
         add(sortPanel);
     }
 
-    private void arrangeTableData(){
-        for (int i = 0; i < productList.size(); i++) {
-            Product product = productList.get(i);
+    private void arrangeTableData(List<Product> list) {
+        data = new Object[list.size()][];
+        for (int i = 0; i < list.size(); i++) {
+            Product product = list.get(i);
             if (product instanceof Electronics electronics) {
                 data[i] = new Object[]{
                         electronics.getProductId(),
@@ -289,31 +237,23 @@ public class HomeUI extends JFrame {
         }
     }
 
+    private void modifyTableData() {
+        if (sortCheckBox.isSelected()) {
+            sortedProductList = productList.stream()
+                    .sorted(Comparator.comparing(Product::getProductName))
+                    .collect(Collectors.toList());
+            arrangeTableData(sortedProductList);
+        } else {
+            arrangeTableData(productList);
+        }
+        model.setDataVector(data, columns);
+    }
+
     private void createProductListSection() {
-        //        Object[][] data = {
-//                {"A001", "TV", "Electronics", "299", "Samsung. 12 weeks warranty"},
-//                {"A203", "Dishwasher", "Electronics", "500", "Bosh. 36 weeks warranty"}
-//        };
-
-        arrangeTableData();
-
         panel2.setLayout(new GridLayout(1, 2));
         model = new DefaultTableModel(data, columns);
-
-////      Get the default renderer for a specific data type (e.g., Object.class)
-//        TableCellRenderer tableDefaultRenderer =  table.getDefaultRenderer(Object.class);
-//
-//        var defaultTableCellRenderer = (DefaultTableCellRenderer) tableDefaultRenderer;
-//        defaultTableCellRenderer.setFont(Font.getFont(Font.SANS_SERIF));
-//        defaultTableCellRenderer.setHorizontalAlignment(JLabel.RIGHT);
-//        defaultTableCellRenderer.setBackground(Color.RED);
-//        System.out.println("table");
-//
-//        // Set the renderer to interpret HTML
-//        table.setDefaultRenderer(Object.class, defaultTableCellRenderer);
-//        table.putClientProperty("html.disable", Boolean.FALSE);
-
         table = new JTable(model);
+        modifyTableData();
 
         // Change the background color to red of the items less than 3 in the products table
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -332,10 +272,9 @@ public class HomeUI extends JFrame {
                     } else {
                         component.setBackground(table.getBackground());
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.getMessage();
-                }
-                finally {
+                } finally {
                     return component;
                 }
             }
@@ -416,15 +355,15 @@ public class HomeUI extends JFrame {
 
         int quantity = getAddQuantity();
         if (quantity == -1) {
-            JOptionPane.showMessageDialog(this,"Quantity is invalid !!!");
+            JOptionPane.showMessageDialog(this, "Quantity is invalid !!!");
             return;
         }
         Product product = productList.stream()
                 .filter(x -> x.getProductId() == productId)
                 .findFirst()
                 .get();
-        if(product.getNoOfItemsAvailable()<quantity){
-            JOptionPane.showMessageDialog(this,"Maximum quantity available is " + product.getNoOfItemsAvailable());
+        if (product.getNoOfItemsAvailable() < quantity) {
+            JOptionPane.showMessageDialog(this, "Maximum quantity available is " + product.getNoOfItemsAvailable());
             return;
         }
 
@@ -433,12 +372,13 @@ public class HomeUI extends JFrame {
                     .filter(item -> item.getProductId().equals(productId))
                     .findFirst()
                     .get();
-            if(cartItems!= null){
+            if (cartItems != null) {
                 //Check to see whether the product already exists in the cart
-                cartItems.addQuantity(quantity,product.getPrice());
+                cartItems.addQuantity(quantity, product.getPrice());
                 return;
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         // Add the product as a new item to cart because the product isn't in the cart
         CartItem cartItem = new CartItem(
                 product.getProductId(),
@@ -448,10 +388,6 @@ public class HomeUI extends JFrame {
         );
 
         cartItems.add(cartItem);
-    }
-
-    public static void repaintHome(){
-        repaintHome();
     }
 
     /**

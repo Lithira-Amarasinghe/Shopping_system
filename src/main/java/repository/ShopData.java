@@ -71,13 +71,12 @@ public class ShopData {
                     new FileInputStream(fileNames.getValue()));
             data = (T)inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+
         }finally {
             if (data == null) {
                 try {
                     data = expectedType.getDeclaredConstructor().newInstance();
                 } catch (Exception e){
-                    e.printStackTrace();
                 }
             }
             return (T)data;

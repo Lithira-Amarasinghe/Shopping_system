@@ -1,6 +1,4 @@
 
-M
-src/main/java/model/User.java,8\e\8e1ebf0166aec1f7f81589f5763cf23a86e9c01e
 Q
 !src/main/java/model/CartItem.java,2\8\281b914b0692209dc57a91e6466def53333a89b8
 \
@@ -19,8 +17,6 @@ P
  src/main/java/util/ShopUtil.java,6\3\6335231ad3e0cc06e64ed17da6ebe80335ed9b44
 T
 $src/test/java/util/ShopUtilTest.java,0\3\03ddf38307d06b46d24bf2785790e8a02b7428b7
-V
-&src/main/java/repository/ShopData.java,8\a\8a8c74b228746d15092fd4fe12e645ac987ce467
 [
 +src/test/java/controller/ShopAdminTest.java,d\7\d7f065a812c0643af176311483f2e0836185e496
 n

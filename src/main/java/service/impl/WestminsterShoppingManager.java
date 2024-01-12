@@ -14,10 +14,8 @@ import service.ShoppingManager;
 import ui.HomeUI;
 import util.FileNames;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Lithira
@@ -79,7 +77,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public List<Product> printProductList() {
-        products = ShopData.getProducts();
+        // Assign a sorted product list
+        products = ShopData.getProducts().stream()
+                .sorted(Comparator.comparing(Product::getProductId))
+                .collect(Collectors.toList());
+
         System.out.println(">>>--- Products in the shop ---<<<");
         System.out.println("No of products : " + products.size());
         int onOfElectronics = 0;

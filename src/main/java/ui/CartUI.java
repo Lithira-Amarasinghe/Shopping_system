@@ -22,7 +22,8 @@ import java.util.Optional;
 public class CartUI extends JFrame {
     List<Product> productList = ShopData.getProducts();
     List<CartItem> cartItems;
-    List<User> users = ShopData.getUsers();;
+    List<User> users = ShopData.getUsers();
+    ;
 
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel(new GridLayout(1, 2));
@@ -35,43 +36,24 @@ public class CartUI extends JFrame {
     JLabel lblDiscountTenPercent = new JLabel();
     JLabel lblDiscountTwentyPercent = new JLabel();
     JLabel lblGrandTotal = new JLabel();
-
+    HomeUI homeUI;
     private int noOfElectronics;
     private int noOfCloths;
-
     private float totalPrice = 0;
     private float firstPurchaseDiscount;
     private float threeItemsDiscount;
 
-    HomeUI homeUI;
-
     /**
      * Creates new form CatUI
+     *
      * @param homeUI
      */
     public CartUI(HomeUI homeUI) {
-        this.homeUI = homeUI;
-        // Load the cart items. If the cart is empty, Cart window is not open to the user
-        cartItems = ShopData.getCartItems();
-        if(cartItems.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Cart is empty!!!");
-            return;
-        }
-
         initComponents();
-        setVisible(true);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(3, 1));  // Set the layout to GridLayout
-        setTitle("Shopping cart");  // Set the title of the UI
-        setSize(800, 600);  // Set the dimensions of the UI
-        createCartItemsTable();  // Call the method to the add the cart items table to UI
-        createCartSummary();  // Create the cart summary
-        createLastSection(); // Create the purchase items section
+    }
 
-        add(panel1);     // add the JPanels to the UI
-        add(panel2);
-        add(panel3);
-
+    public CartUI() {
+        initComponents();
     }
 
 
@@ -119,14 +101,14 @@ public class CartUI extends JFrame {
             if (result == 0) {
                 cartItems.stream()
                         .forEach(cartItem -> {
-                            Product product = ShopUtil.getProduct(cartItem.getProductId(),products);
+                            Product product = ShopUtil.getProduct(cartItem.getProductId(), products);
                             product.purchase(cartItem.getQuantity());
                         });
                 cartItems.clear();
                 ShopData.saveToAFile(cartItems, FileNames.CART_PRODUCTS_FILE);
                 ShopData.saveToAFile(products, FileNames.PRODUCTS_FILE);
                 ShopUtil.getCurrentUser(users).purchased();
-                ShopData.saveToAFile(users,FileNames.USERS_FILE);
+                ShopData.saveToAFile(users, FileNames.USERS_FILE);
 
                 JOptionPane.showMessageDialog(this, "Checkout completed");
                 homeUI.repaint();
@@ -154,15 +136,14 @@ public class CartUI extends JFrame {
         panel2.add(summaryRightPanel);
 
 
-
-        Optional cartOptional =  cartItems.stream()
+        Optional cartOptional = cartItems.stream()
                 .map(product -> product.getTotalPrice())
                 .reduce((x, y) -> x + y);
-        if(!cartOptional.isPresent()) return;
+        if (!cartOptional.isPresent()) return;
         float totalPrice = (float) cartOptional.get();
         float tenPercentDiscount = 0;
-        if(!ShopUtil.getCurrentUser(users).isPurchased()){
-             tenPercentDiscount = (float) (totalPrice * 0.1);
+        if (!ShopUtil.getCurrentUser(users).isPurchased()) {
+            tenPercentDiscount = (float) (totalPrice * 0.1);
         }
         float twentyPercentDiscount = noOfCloths >= 3 || noOfElectronics >= 3 ? (float) (totalPrice * 0.2) : 0;
 //                getTwentyPercentDiscount(totalPrice);
@@ -197,7 +178,7 @@ public class CartUI extends JFrame {
 
         Object[][] data = new Object[cartItems.size()][];
         for (int i = 0; i < cartItems.size(); i++) {
-            Product product = ShopUtil.getProduct(cartItems.get(i).getProductId(),products);
+            Product product = ShopUtil.getProduct(cartItems.get(i).getProductId(), products);
             CartItem cartItem = cartItems.get(i);
             if (product instanceof Electronics) {
                 Electronics electronics = (Electronics) product;
@@ -213,7 +194,7 @@ public class CartUI extends JFrame {
                 };
             } else if (product instanceof Clothing) {
                 Clothing clothing = (Clothing) product;
-                noOfCloths+= cartItem.getQuantity();
+                noOfCloths += cartItem.getQuantity();
 
                 data[i] = new Object[]{
                         (clothing.getProductId() + " \n" +
@@ -248,20 +229,43 @@ public class CartUI extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.homeUI = homeUI;
+        // Load the cart items. If the cart is empty, Cart window is not open to the user
+        cartItems = ShopData.getCartItems();
+        if (cartItems.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cart is empty!!!");
+            return;
+        }
 
-        GroupLayout layout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 300, Short.MAX_VALUE)
-        );
+//        initComponents();
+        setVisible(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new GridLayout(3, 1));  // Set the layout to GridLayout
+        setTitle("Shopping cart");  // Set the title of the UI
+        setSize(800, 600);  // Set the dimensions of the UI
+        createCartItemsTable();  // Call the method to the add the cart items table to UI
+        createCartSummary();  // Create the cart summary
+        createLastSection(); // Create the purchase items section
 
-        pack();
+        add(panel1);     // add the JPanels to the UI
+        add(panel2);
+        add(panel3);
+
+//
+//        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//
+//        GroupLayout layout = new GroupLayout(getContentPane());
+//        getContentPane().setLayout(layout);
+//        layout.setHorizontalGroup(
+//                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addGap(0, 400, Short.MAX_VALUE)
+//        );
+//        layout.setVerticalGroup(
+//                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                        .addGap(0, 300, Short.MAX_VALUE)
+//        );
+//
+//        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

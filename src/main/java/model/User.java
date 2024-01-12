@@ -4,7 +4,12 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String username;
+    private String password;
     private boolean isPurchased;
+
+    public String getPassword() {
+        return password;
+    }
 
     public User() { }
 
@@ -12,6 +17,14 @@ public class User implements Serializable {
         this.username = username;
         this.isPurchased = isPurchased;
     }
+
+    public User(String username, String password,boolean isPurchased) {
+        this.username = username;
+        this.password = password;
+        this.isPurchased = isPurchased;
+    }
+
+
 
     public String getUsername() {
         return username;

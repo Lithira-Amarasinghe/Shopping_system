@@ -180,13 +180,12 @@ public class HomeUI extends JFrame {
 
         JButton btnShoppingCart = new JButton("Shopping Cart");
         btnShoppingCart.addActionListener(e -> {
-            String username = JOptionPane.showInputDialog(this, "Enter your username");
-            if (username == null) {
-                return;
+            User currentUser = ShopData.getCurrentUser();
+            if (currentUser!=null) {
+                new CartUI(this);
+            }else{
+                new LoginUI();
             }
-            User user = new User(username, false);
-            ShopData.setCurrentUser(user);
-            new CartUI(this);
         });
         panel1.add(btnShoppingCart);
         add(panel1);
@@ -295,11 +294,9 @@ public class HomeUI extends JFrame {
                     // Retrieve data from the selected row
                     Object productId = table.getValueAt(selectedRow, 0);
                     showSelectedItem((String) productId);
-
                 }
             }
         });
-
         panel2.add(scrollPane);
         add(panel2);
 

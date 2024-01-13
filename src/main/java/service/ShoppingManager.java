@@ -16,11 +16,10 @@ import java.util.List;
 public interface ShoppingManager {
     void displayMenu();
     void addANewProduct(Product product);
-    Product deleteAProduct(String productId);
+    Product deleteProduct(String productId);
     List<Product> printProductList();
     void saveProducts();
     void loadData();
     Product addToStock(List<Product> products, Product product, int quantity);
     void openShop();
-    <T> boolean testShop(T num) ;
 }

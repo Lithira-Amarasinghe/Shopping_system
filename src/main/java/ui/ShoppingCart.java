@@ -21,24 +21,24 @@ import java.util.Optional;
  * @author Lithira
  */
 public class ShoppingCart extends JFrame {
-    List<Product> productList = ShopData.getProducts();
-    List<CartItem> cartItems;
-    List<User> users = ShopData.getUsers();
+    private List<Product> productList = ShopData.getProducts();
+    private List<CartItem> cartItems;
+    private List<User> users = ShopData.getUsers();
 
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel(new GridLayout(1, 2));
-    JPanel panel3 = new JPanel(new GridLayout(1, 2));
+    private JPanel panel1 = new JPanel();
+    private JPanel panel2 = new JPanel(new GridLayout(1, 2));
+    private JPanel panel3 = new JPanel(new GridLayout(1, 2));
 
-    JPanel summaryLeftPanel = new JPanel(new GridLayout(4, 1));
-    JPanel summaryRightPanel = new JPanel(new GridLayout(4, 1));
+    private JPanel summaryLeftPanel = new JPanel(new GridLayout(4, 1));
+    private JPanel summaryRightPanel = new JPanel(new GridLayout(4, 1));
 
-    JLabel lblTotalPrice = new JLabel();
-    JLabel lblDiscountTenPercent = new JLabel();
-    JLabel lblDiscountTwentyPercent = new JLabel();
-    JLabel lblGrandTotal = new JLabel();
-    HomeUI homeUI;
+    private JLabel lblTotalPrice = new JLabel();
+    private JLabel lblDiscountTenPercent = new JLabel();
+    private JLabel lblDiscountTwentyPercent = new JLabel();
+    private JLabel lblGrandTotal = new JLabel();
+    private HomeUI homeUI;
 
-    Object[][] data = null;
+    private Object[][] data = null;
 
     private int noOfElectronics;
     private int noOfCloths;
@@ -148,16 +148,8 @@ public class ShoppingCart extends JFrame {
                 if(data.length==0) dispose();
                 if (column == 3) {
                     model.getValueAt(row, 0);
-                    CartItem cartItem = cartItems.get(row);
+                    // Removes the selected item from the cartItems list
                     cartItems.remove(row);
-                    Product product = ShopUtil.getProduct(cartItem.getProductId(), productList);
-                    if(product instanceof Electronics){
-                        System.out.println("Quantity" + cartItem.getQuantity());
-                        noOfElectronics -= cartItem.getQuantity();
-                    }else {
-                        noOfCloths -= cartItem.getQuantity();
-                    }
-                    System.out.println("Quantity" + noOfElectronics);
                     ShopData.saveToAFile(cartItems, FileNames.CART_PRODUCTS_FILE);
                     arrangeTableData();
                     model.setDataVector(data, columns);
@@ -165,6 +157,7 @@ public class ShoppingCart extends JFrame {
                     // Prevent actions or selection on other columns
                     table.getSelectionModel().clearSelection();
                 }
+                // Calculate the bill again
                 calculateBill();
             }
         });

@@ -57,7 +57,7 @@ public class Clothing extends Product {
         System.out.println("Product id : " + productId);
         System.out.println("Product name : " + productName);
         System.out.println("No of available items : " + noOfItemsAvailable);
-        System.out.println("Price : " + price);
+        System.out.println("Price ($): " + price);
         System.out.println("Size : " + size);
         System.out.println("Color  : " + color);
     }

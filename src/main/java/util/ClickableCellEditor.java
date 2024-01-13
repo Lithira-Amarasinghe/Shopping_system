@@ -11,7 +11,7 @@ public class ClickableCellEditor extends DefaultCellEditor {
     }
 
     @Override
-    public boolean isCellEditable(EventObject anEvent) {
+    public boolean isCellEditable(EventObject event) {
         return false; // Always prevent editing
     }
 }

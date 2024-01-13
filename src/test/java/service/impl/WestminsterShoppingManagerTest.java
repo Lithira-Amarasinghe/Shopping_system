@@ -4,7 +4,6 @@ import model.Clothing;
 import model.Electronics;
 import model.Product;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -86,7 +85,7 @@ public class WestminsterShoppingManagerTest {
         try(MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)){
             mockedShopData.when(()->ShopData.getProducts()).thenReturn(products);
             doNothing().when(spyShoppingManager).saveProducts();
-            Product deletedProduct = spyShoppingManager.deleteAProduct("001");
+            Product deletedProduct = spyShoppingManager.deleteProduct("001");
             mockedShopData.verify(()-> ShopData.getProducts(), times(1));
             verify(spyShoppingManager, times(1)).saveProducts();
             assertEquals("001", deletedProduct.getProductId(), "Deleted product ID should be 001");
@@ -119,20 +118,6 @@ public class WestminsterShoppingManagerTest {
 
     }
 
-    @Test
-    void testShop(){
-        try (MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)) {
-
-            mockedShopData.when(()-> ShopData.testCall(anyString())).thenReturn(false);
-
-            System.out.println(ShopData.testCall("20"));
-            System.out.println(shoppingManager.testShop("30"));
-
-            mockedShopData.verify(
-                    ()->ShopData.testCall(anyString())
-                    ,times(2));
-        }
-    }
 
     @Test
     void saveProductsTest() {

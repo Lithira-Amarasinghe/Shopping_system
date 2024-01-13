@@ -12,15 +12,12 @@ import java.util.Optional;
 
 public class SignupUI extends JFrame {
     // Create three text fields
-    JTextField txtUsername = new JTextField();
-    JPasswordField txtPassword = new JPasswordField();
-    JPasswordField txtConfirmationPassword = new JPasswordField();
+    private JTextField txtUsername = new JTextField();
+    private JPasswordField txtPassword = new JPasswordField();
+    private JPasswordField txtConfirmationPassword = new JPasswordField();
 
-    JButton btnSignup = new JButton("Signup");
-    JButton btnCancel = new JButton("Cancel");
-
-    JPanel controllerPanel = new JPanel();
-
+    private JButton btnSignup = new JButton("Signup");
+    private JButton btnCancel = new JButton("Cancel");
 
     SignupUI() {
         setLayout(new GridLayout(4, 2));
@@ -42,6 +39,7 @@ public class SignupUI extends JFrame {
 
         // Set the frame properties
         setSize(400, 200);
+        setTitle("Signup");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
@@ -63,9 +61,6 @@ public class SignupUI extends JFrame {
             if(first.isPresent()) {
                 existingUsername = first.get().getUsername();
             }
-
-            System.out.println("Password : " + password);
-            System.out.println("Confirmation password : " + confirmationPassword);
 
             if(username.equals(existingUsername)){
                 JOptionPane.showMessageDialog(this,username + " already exists. Try another");

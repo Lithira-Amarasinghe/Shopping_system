@@ -28,6 +28,7 @@ public class ShoppingManagerController {
         try {
             System.out.print("Enter the option no. : ");
             option = scanner.nextInt();
+            scanner.nextLine();
         } catch (InputMismatchException ex) {
             System.out.println("!!! Invalid input");
             ex.printStackTrace();
@@ -66,7 +67,7 @@ public class ShoppingManagerController {
                 shoppingManager.addANewProduct(getNewProductDetails());
             } else if (option == 2) {
                 String productId = ShoppingManagerController.getProductId();
-                shoppingManager.deleteAProduct(productId);
+                shoppingManager.deleteProduct(productId);
             } else if (option == 3) {
                 shoppingManager.printProductList();
             } else if (option == 4) {
@@ -75,7 +76,10 @@ public class ShoppingManagerController {
                 shoppingManager.openShop();
             } else if (option == 6) {
                 getStockChangeData();
-            } else continue;
+            } else {
+                System.out.println("Wrong option!!!.Try again\n");
+                continue;
+            }
         }
     }
 
@@ -89,8 +93,12 @@ public class ShoppingManagerController {
             while (true) {
                 System.out.println("\t\t---- Add product ----\n");
                 System.out.print("Product is Electronic(E/e) item or Clothing(C/c) ? ");
-                scanner.nextLine();
                 String itemType = scanner.nextLine().trim().toLowerCase();
+                if(itemType.isEmpty()){
+                    System.out.println("Product category cannot be empty\n");
+                    continue;
+                }
+
                 System.out.print("Product id    : ");
                 String productId = scanner.nextLine();
                 Product product = ShopUtil.getProduct(productId, products);
@@ -98,19 +106,34 @@ public class ShoppingManagerController {
                     System.out.println(productId + " already exists. Use another id.");
                     continue;
                 }
+
                 System.out.print("Product name  : ");
                 String productName = scanner.nextLine();
+                if(itemType.isEmpty()){
+                    System.out.println("Product name cannot be empty\n");
+                    continue;
+                }
+
                 System.out.print("No of items   : ");
                 int noOfItems = scanner.nextInt();
+                scanner.nextLine();
+
+                if(itemType.isEmpty()){
+                    System.out.println("No of items cannot be empty\n");
+                    continue;
+                }
+
                 System.out.print("Product price : ");
                 float price = scanner.nextFloat();
                 scanner.nextLine();
+
                 switch (itemType) {
                     case "e" -> {
                         System.out.print("Enter brand : ");
                         String brand = scanner.nextLine();
                         System.out.print("Enter warranty period(weeks) : ");
-                        String warrantyPeriod = scanner.next();
+                        String warrantyPeriod = scanner.nextLine();
+                        scanner.nextLine();
                         this.product = new Electronics(productId,
                                                        productName,
                                                        noOfItems,
@@ -123,6 +146,8 @@ public class ShoppingManagerController {
                         String color = scanner.nextLine();
                         System.out.print("Size : ");
                         float size = scanner.nextFloat();
+                        scanner.nextLine();
+
                         this.product = new Clothing(productId,
                                                     productName,
                                                     noOfItems,
@@ -135,7 +160,7 @@ public class ShoppingManagerController {
                         continue;
                     }
                 }
-                System.out.println("Item details entered successfully");
+                System.out.println("Item details entered successfully\n");
                 break;
             }
         } catch (InputMismatchException e) {
@@ -150,7 +175,6 @@ public class ShoppingManagerController {
 
     public void getStockChangeData() {
         System.out.print("Product id    : ");
-        scanner.nextLine();
         String productId = scanner.nextLine();
 
         List<Product> products = ShopData.getProducts();

@@ -4,7 +4,7 @@ import service.impl.WestminsterShoppingManager;
 import ui.HomeUI;
 
 public class ShopAdmin {
-    static ShoppingManagerController shoppingManagerController;
+    private static ShoppingManagerController shoppingManagerController;
 
     static{
         shoppingManagerController = new ShoppingManagerController(new WestminsterShoppingManager());

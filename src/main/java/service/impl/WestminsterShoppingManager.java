@@ -50,7 +50,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     /* Used to delete a product from the system. product id needs to delete */
     @Override
-    public Product deleteAProduct(String productId) {
+    public Product deleteProduct(String productId) {
         products = ShopData.getProducts();
         Optional<Product> productOptional = products.stream()
                 .filter(x -> x.getProductId().equals(productId))
@@ -61,8 +61,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
         }
         Product productToDelete = productOptional.get();
         products.remove(productToDelete);
-        System.out.println("Product successfully deleted");
-        System.out.println(products.size() + " different products in the system");
+        System.out.println("\nProduct successfully deleted");
+        System.out.println(products.size() + " different products in the system\n");
         saveProducts();
         return productToDelete;
     }
@@ -75,7 +75,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 .sorted(Comparator.comparing(Product::getProductId))
                 .collect(Collectors.toList());
 
-        System.out.println(">>>--- Products in the shop ---<<<");
+        System.out.println("\n>>>--- Products in the shop ---<<<");
         System.out.println("No of products : " + products.size());
         int onOfElectronics = 0;
         int onOfCloths = 0;
@@ -98,14 +98,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
     /* This method used to save products to the products.ser file using java serialization*/
     @Override
     public void saveProducts() {
-        System.out.println(System.identityHashCode(products));
-        System.out.println(products);
         ShopData.saveToAFile(products, FileNames.PRODUCTS_FILE);
-    }
-
-    @Override
-    public <T> boolean testShop(T num) {
-        return ShopData.testCall(num);
+        System.out.println("Products saved successfully");
     }
 
     /* This method loads the products from the stored file. It uses the deserialization */

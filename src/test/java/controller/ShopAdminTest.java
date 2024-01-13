@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ui.HomeUI;
@@ -38,11 +37,5 @@ class ShopAdminTest {
         // Verifying that loadDataController and startManagerWork methods are called once each
         verify(shoppingManagerController, times(1)).loadDataController();
         verify(shoppingManagerController, times(1)).startManagerWork();
-
     }
-//    void abcTest(){
-//        try(MockedConstruction<ShopAdmin> mockConstruction = Mockito.mockConstruction(ShopAdmin.class)){
-//            mockConstruction.constructed();
-//        }
-//    }
 }

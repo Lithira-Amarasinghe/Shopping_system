@@ -39,6 +39,7 @@ public class LoginUI extends JFrame{
 
         setSize(400, 200);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Login");
         setVisible(true);
 
         add(pane1);
@@ -86,6 +87,7 @@ public class LoginUI extends JFrame{
             new SignupUI();
         });
 
+        // Adding the buttons to controller panel
         controllerPanel.add(btnSignup);
         controllerPanel.add(btnCancel);
         controllerPanel.add(btnLogin);

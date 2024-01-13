@@ -21,7 +21,7 @@ public class Electronics extends Product{
         System.out.println("Product id : " + productId);
         System.out.println("Product name : " + productName);
         System.out.println("No of available items : " + noOfItemsAvailable);
-        System.out.println("Price : " + price);
+        System.out.println("Price ($): " + price);
         System.out.println("Brand : " + brand);
         System.out.println("Warranty period : " + warrantyPeriod);
     }
@@ -30,7 +30,7 @@ public class Electronics extends Product{
     public String toString() {
         return "Electronics{" +
                 "brand='" + brand + '\'' +
-                ", warrentyPeriod=" + warrantyPeriod +
+                ", warrantyPeriod=" + warrantyPeriod +
                 ", productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", noOfItemsAvailable=" + noOfItemsAvailable +

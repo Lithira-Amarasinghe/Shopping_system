@@ -41,7 +41,7 @@ public class HomeUI extends JFrame {
     private List<Product> sortedProductList = new ArrayList();
     private List<CartItem> cartItems = new ArrayList<>();
 
-    private JPanel mainPanel = new JPanel();
+//    private JPanel mainPanel = new JPanel();
 
     private JPanel topPanel = new JPanel();
     private JPanel panel1 = new JPanel();
@@ -56,7 +56,7 @@ public class HomeUI extends JFrame {
     private JLabel lblProductColour = new JLabel();
     private JLabel lblProductNoOfItemsAvailable = new JLabel();
     private JLabel sizeLabel = new JLabel("Size");
-    private JLabel colorLabel = new JLabel("Red");
+    private JLabel colorLabel = new JLabel("Color");
     private DefaultTableModel model;
     private JTable table = new JTable();
     private JCheckBox sortCheckBox;
@@ -89,7 +89,7 @@ public class HomeUI extends JFrame {
         createProductDetailsSection();
         createAddToCartSection();
 
-        getContentPane().add(mainPanel);
+//        getContentPane().add(mainPanel);
     }
 
     /**

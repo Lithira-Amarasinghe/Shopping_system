@@ -74,7 +74,6 @@ public class WestminsterShoppingManagerTest {
         try(MockedStatic<ShopData> mockedShopData = Mockito.mockStatic(ShopData.class)){
             mockedShopData.when(()-> ShopData.saveToAFile(any(List.class), any(FileNames.class)))
                     .thenReturn(true);
-            System.out.println();
             shoppingManager.addANewProduct(product);
             mockedShopData.verify(() -> ShopData.saveToAFile(any(List.class), any(FileNames.class)), times(1));
         }
@@ -130,8 +129,8 @@ public class WestminsterShoppingManagerTest {
             List<Product> mockProducts = new ArrayList<>();
             mockedShopData.when(() -> ShopData.saveToAFile(anyList() , any(FileNames.class)))
                     .thenReturn(true);
-            mockedShopData.verifyNoInteractions();
 
+            mockedShopData.verifyNoInteractions();
             shoppingManager.saveProducts();
 
             mockedShopData.verify(

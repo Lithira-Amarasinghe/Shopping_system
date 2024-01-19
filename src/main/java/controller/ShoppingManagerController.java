@@ -24,6 +24,11 @@ public class ShoppingManagerController {
         this.shoppingManager = shoppingManager;
     }
 
+    public ShoppingManagerController(ShoppingManager shoppingManager,Scanner scanner) {
+        this.shoppingManager = shoppingManager;
+        ShoppingManagerController.scanner = scanner;
+    }
+
     public static int getOption() {
         try {
             System.out.print("Enter the option no. : ");
@@ -39,9 +44,9 @@ public class ShoppingManagerController {
 
     public static String getProductId() {
         String productId = null;
-        scanner.nextLine();
         try {
-            System.out.print("Enter the product id to delete : ");
+            scanner.nextLine();
+            System.out.println("Enter the product id to delete : ");
             productId = scanner.nextLine();
         } catch (InputMismatchException e) {
 
@@ -59,12 +64,13 @@ public class ShoppingManagerController {
     public void getMainOption() {
         while (true) {
             shoppingManager.displayMenu();
-            ShoppingManagerController.getOption();
+            getOption();
             if (option == -1) {
                 System.out.println("Exit");
                 break;
             } else if (option == 1) {
-                shoppingManager.addANewProduct(getNewProductDetails());
+                Product prod = getNewProductDetails();
+                shoppingManager.addANewProduct(prod);
             } else if (option == 2) {
                 String productId = ShoppingManagerController.getProductId();
                 shoppingManager.deleteProduct(productId);
@@ -81,6 +87,7 @@ public class ShoppingManagerController {
                 continue;
             }
         }
+        return;
     }
 
     public Product getNewProductDetails() {
@@ -98,7 +105,6 @@ public class ShoppingManagerController {
                     System.out.println("Product category cannot be empty\n");
                     continue;
                 }
-
                 System.out.print("Product id    : ");
                 String productId = scanner.nextLine();
                 Product product = ShopUtil.getProduct(productId, products);

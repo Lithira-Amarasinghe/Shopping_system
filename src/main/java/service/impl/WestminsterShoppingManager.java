@@ -14,6 +14,7 @@ import service.ShoppingManager;
 import ui.HomeUI;
 import util.FileNames;
 
+import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.println(" [5]  - Open shop");
         System.out.println(" [6]  - Add out-of stock items");
         System.out.println(" [-1] - Exit ");
+
     }
 
     /* Used to add a new product to the system*/

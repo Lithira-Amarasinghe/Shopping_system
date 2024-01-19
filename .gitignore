@@ -1,3 +1,5 @@
 target/
+src/main/java/practice
+src/test/java/practice/
 
-.idea
+.idea/

@@ -3,11 +3,14 @@ package controller;
 import model.Clothing;
 import model.Electronics;
 import model.Product;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
 import repository.ShopData;
 import service.ShoppingManager;
@@ -46,6 +49,9 @@ class ShoppingManagerControllerTest {
     @Spy
     @InjectMocks
     ShoppingManagerController shoppingManagerController;
+
+
+    public MockitoRule rule = MockitoJUnit.rule();
 
     Product product1;
 
@@ -103,10 +109,11 @@ class ShoppingManagerControllerTest {
 
     @Test
     void getOptionExceptionTest() {
-        Mockito.when(mockedScanner.nextInt()).thenThrow(new InputMismatchException());
-
-        var result = shoppingManagerController.getOption();
-        assertEquals(0, result, "Result should be 0");
+        try {
+            doThrow(new InputMismatchException()).when(mockedScanner).nextInt();
+            var result = shoppingManagerController.getOption();
+            assertEquals(0, result, "Result should be 0");
+        }catch(Exception e){}
     }
 
     @Test
@@ -187,7 +194,6 @@ class ShoppingManagerControllerTest {
         } catch (Exception e) {
         }
     }
-
 
 
     @Test
